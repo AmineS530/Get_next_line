@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asadik <asadik@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 17:33:53 by asadik            #+#    #+#             */
-/*   Updated: 2022/11/17 21:45:29 by asadik           ###   ########.fr       */
+/*   Created: 2022/11/17 19:26:38 by asadik            #+#    #+#             */
+/*   Updated: 2022/11/17 21:50:25 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 typedef struct s_list
 {
@@ -112,15 +112,15 @@ char	*ft_read_from_fd(int fd, char *alpha)
 
 char	*get_next_line(int fd)
 {
-	static char	*alpha;
+	static char	*alpha[OPEN_MAX];
 	t_gnlkit	beta;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	alpha = ft_read_from_fd(fd, alpha);
-	if (!alpha)
+	alpha[fd] = ft_read_from_fd(fd, alpha[fd]);
+	if (!alpha[fd])
 		return (0);
-	beta.nextline = ft_find_line(alpha);
-	alpha = ft_set_remainder(alpha);
+	beta.nextline = ft_find_line(alpha[fd]);
+	alpha[fd] = ft_set_remainder(alpha[fd]);
 	return (beta.nextline);
 }
